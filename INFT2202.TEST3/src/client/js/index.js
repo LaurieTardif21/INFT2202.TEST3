@@ -4,7 +4,7 @@ function updateFooter() {
     const footerSpan = document.querySelector('.footer span');
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
-    footerSpan.textContent = `Your Name ${currentYear}`; // Replace "Your Name"
+    footerSpan.textContent = `Laurie Tardif ${currentYear}`; // Replace "Your Name"
 }
 
 /*
