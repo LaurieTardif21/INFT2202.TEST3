@@ -68,18 +68,18 @@ function insertMoviesIntoTable(movies) {
     directorCell.textContent = movie.director;
     const ratingCell = document.createElement('td');
     ratingCell.textContent = movie.rating;
-
+    const parsedRating = parseInt(movie.rating)
     // Add conditional classes based on the rating
-    if (movie.rating < 2) {
-        ratingCell.classList.add('rating-below-2');
-    } else if (movie.rating >= 2 && movie.rating < 5) {
-        ratingCell.classList.add('rating-2-to-5');
-    } else if (movie.rating >= 5 && movie.rating < 8) {
-        ratingCell.classList.add('rating-5-to-8');
-    } else if (movie.rating >= 8) {
-        ratingCell.classList.add('rating-8-plus');
+    if (parsedRating < 2) {
+      ratingCell.classList.add('rating-below-2');
+    } else if (parsedRating >= 2 && parsedRating < 5) {
+      ratingCell.classList.add('rating-2-to-5');
+    } else if (parsedRating >= 5 && parsedRating < 8) {
+      ratingCell.classList.add('rating-5-to-8');
+    } else if (parsedRating >= 8) {
+      ratingCell.classList.add('rating-8-plus');
     }
-  
+
     // Append cells to the row
     row.appendChild(movieNameCell);
     row.appendChild(genreCell);
