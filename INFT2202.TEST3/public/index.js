@@ -2,7 +2,7 @@
 function updateFooter() {
   const footerSpan = document.querySelector('footer .text-body-secondary');
   const currentYear = new Date().getFullYear();
-  footerSpan.textContent = `Your Name ${currentYear}`; // Replace 'Your Name' with your actual name
+  footerSpan.textContent = `Laurie Tardif ${currentYear}`; // Replace 'Your Name' with your actual name
 }
 
 // Function to fetch movies from the server
