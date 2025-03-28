@@ -1,66 +1,64 @@
-// import the express library
+// src/server/app.js
 import express from 'express';
-import movies from './data/movies.js'; // Updated path
-import path from 'path';
-import { fileURLToPath } from 'url';
+import movies from './movies.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// set the port for the server, use 3022
-const PORT = 3022;
-
-// create a new server instance
 const app = express();
+const port = 3022;
 
-// configure the body renderer to parse json inputs
-app.use(express.json());
-
-// create a new router instance
-const router = express.Router();
-
-// create a new route and route handler, check the README for more details.
-router.get('/api/movies', (req, res) => {
-    let filteredMovies = [...movies]; // Create a copy to avoid modifying the original data
-
-    const { rating, genre } = req.query;
-
-    if (rating) {
-        const parsedRating = parseInt(rating, 10); // Parse as an integer
-
-        if (isNaN(parsedRating) || parsedRating < 1 || parsedRating > 10) {
-            return res.status(400).json({ error: 'Invalid rating. Rating must be a number between 1 and 10.' });
-        }
-
-        filteredMovies = filteredMovies.filter(movie => movie.rating < parsedRating);
-    }
-
-    if (genre) {
-        filteredMovies = filteredMovies.filter(movie =>
-            movie.genre.toLowerCase() === genre.toLowerCase()
-        );
-    }
-
-    // Sort by rating (highest to lowest)
-    filteredMovies.sort((a, b) => b.rating - a.rating);
-
-    res.json(filteredMovies);
+// Root route : Return a simple message
+app.get('/', (req,res) => {
+  res.send("Server is working");
 });
 
-// configure the server to use your new router instance
-app.use(router);
+/**
+ * GET /api/movies
+ *
+ * This route handles requests for movie data. It supports filtering by rating and genre,
+ * and it always sorts the results by rating (highest to lowest).
+ *
+ * Query Parameters:
+ *   - rating (optional): A number between 1 and 10. If provided, the response will exclude movies
+ *                        with a rating equal to or higher than this value.
+ *   - genre (optional): A string representing a movie genre. If provided, the response will
+ *                       include only movies in that genre (case-insensitive).
+ *
+ * Error Handling:
+ *   - If an invalid rating is provided (not a number or out of range), a 400 error is returned.
+ *
+ * Response:
+ *   - Returns a JSON array of movie objects, filtered and sorted according to the parameters.
+ */
+app.get('/api/movies', (req, res) => {
+  // Get parameters from the request query string
+  const ratingParam = req.query.rating;
+  const genreParam = req.query.genre;
 
-// automatically serve static assets from the client folder AFTER defining the routes.
-app.use(express.static(path.join(__dirname, '../../..', 'client')));
+  // Start with the full array of movies
+  let filteredMovies = [...movies]; // Create a copy to avoid modifying the original data
 
-// automatically serve static assets from the client folder AFTER defining the routes.
-app.use('/js', express.static(path.join(__dirname, '../../..', 'client', 'js')));
+  // Filter by rating if provided
+  if (ratingParam) {
+    const rating = Number(ratingParam);
+    if (isNaN(rating) || rating < 1 || rating > 10) {
+      return res.status(400).json({ error: 'Rating must be a number between 1 and 10' });
+    }
+    filteredMovies = filteredMovies.filter(movie => movie.rating < rating);
+  }
 
-// automatically serve static assets from the node_modules folder
-app.use('/node_modules', express.static(path.join(__dirname, '../../..', 'node_modules')));
+  // Filter by genre if provided
+  if (genreParam) {
+    const lowerCaseGenre = genreParam.toLowerCase();
+    filteredMovies = filteredMovies.filter(movie => movie.genre.toLowerCase() === lowerCaseGenre);
+  }
 
+  // Sort by rating (highest to lowest)
+  filteredMovies.sort((a, b) => b.rating - a.rating);
 
-// start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  // Send the filtered and sorted movies
+  res.json(filteredMovies);
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });
