@@ -1,13 +1,21 @@
-// src/server/app.js
 import express from 'express';
 import movies from './movies.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 const port = 3022;
 
+// Get the directory name of the current file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, '../../public')));
+
 // Root route : Return a simple message
-app.get('/', (req,res) => {
-  res.send("Server is working");
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../public/index.html'));
 });
 
 /**
