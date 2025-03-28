@@ -71,18 +71,31 @@ function insertMoviesIntoTable(movies) {
     const parsedRating = parseInt(movie.rating)
     // Add conditional styling based on the rating
     if (parsedRating < 2) {
-      row.style.backgroundColor = 'red';
-      row.style.color = 'white';
+        row.style.backgroundColor = 'red';
+        
     } else if (parsedRating >= 2 && parsedRating < 5) {
-      row.style.backgroundColor = 'red';
-      row.style.color = 'white';
+        row.style.backgroundColor = 'red';
+        
     } else if (parsedRating >= 5 && parsedRating < 8) {
-      row.style.backgroundColor = 'blue';
-      row.style.color = 'white';
+        row.style.backgroundColor = 'blue';
+        
     } else if (parsedRating >= 8) {
-      row.style.backgroundColor = 'green';
-      row.style.color = 'white';
+        row.style.backgroundColor = 'green';
     }
+    if (parsedRating < 5){
+        movieNameCell.style.color = 'white';
+        genreCell.style.color = 'white';
+        releaseDateCell.style.color = 'white';
+        directorCell.style.color = 'white';
+        ratingCell.style.color = 'white';
+    } else {
+      movieNameCell.style.color = 'black';
+      genreCell.style.color = 'black';
+      releaseDateCell.style.color = 'black';
+      directorCell.style.color = 'black';
+      ratingCell.style.color = 'black';
+    }
+    
 
     // Append cells to the row
     row.appendChild(movieNameCell);
