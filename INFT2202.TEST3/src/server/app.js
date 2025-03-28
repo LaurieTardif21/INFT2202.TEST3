@@ -51,12 +51,13 @@ router.get('/api/movies', (req, res) => {
 app.use(router);
 
 // automatically serve static assets from the client folder AFTER defining the routes.
-app.use(express.static(path.join(__dirname, '../../../client')));
+app.use(express.static(path.join(__dirname, '../..', 'client')));
+
 // automatically serve static assets from the client folder AFTER defining the routes.
-app.use('/js', express.static(path.join(__dirname, '../../../client', 'js')));
+app.use('/js', express.static(path.join(__dirname, '../..', 'client', 'js')));
 
 // automatically serve static assets from the node_modules folder
-app.use('/node_modules', express.static(path.join(__dirname, '../../../../node_modules')));
+app.use('/node_modules', express.static(path.join(__dirname, '..','..', 'node_modules')));
 
 // start the server
 app.listen(PORT, () => {
