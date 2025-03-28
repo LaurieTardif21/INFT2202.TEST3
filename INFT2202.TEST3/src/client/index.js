@@ -1,5 +1,3 @@
-index.js
-
 // js/index.js
 
 // Function to update the footer with name and current year
