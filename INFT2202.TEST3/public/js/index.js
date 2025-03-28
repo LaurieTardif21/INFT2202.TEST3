@@ -70,15 +70,18 @@ function insertMoviesIntoTable(movies) {
     ratingCell.textContent = movie.rating;
     const parsedRating = parseInt(movie.rating)
     // Add conditional styling based on the rating
-
     if (parsedRating < 2) {
-        ratingCell.style.color = 'red';
+      ratingCell.style.backgroundColor = 'red';
+      ratingCell.style.color = 'white';
     } else if (parsedRating >= 2 && parsedRating < 5) {
-        ratingCell.style.color = 'red';
+      ratingCell.style.backgroundColor = 'red';
+      ratingCell.style.color = 'white';
     } else if (parsedRating >= 5 && parsedRating < 8) {
-        ratingCell.style.color = 'blue';
+      ratingCell.style.backgroundColor = 'blue';
+      ratingCell.style.color = 'white';
     } else if (parsedRating >= 8) {
-        ratingCell.style.color = 'green';
+      ratingCell.style.backgroundColor = 'green';
+      ratingCell.style.color = 'white';
     }
 
     // Append cells to the row
