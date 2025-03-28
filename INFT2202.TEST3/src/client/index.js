@@ -69,15 +69,16 @@ function insertMoviesIntoTable(movies) {
     const ratingCell = document.createElement('td');
     ratingCell.textContent = movie.rating;
     const parsedRating = parseInt(movie.rating)
-    // Add conditional classes based on the rating
+    // Add conditional styling based on the rating
+
     if (parsedRating < 2) {
-      ratingCell.classList.add('rating-below-2');
+        ratingCell.style.color = 'red';
     } else if (parsedRating >= 2 && parsedRating < 5) {
-      ratingCell.classList.add('rating-2-to-5');
+        ratingCell.style.color = 'red';
     } else if (parsedRating >= 5 && parsedRating < 8) {
-      ratingCell.classList.add('rating-5-to-8');
+        ratingCell.style.color = 'blue';
     } else if (parsedRating >= 8) {
-      ratingCell.classList.add('rating-8-plus');
+        ratingCell.style.color = 'green';
     }
 
     // Append cells to the row
