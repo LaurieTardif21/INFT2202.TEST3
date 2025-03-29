@@ -69,14 +69,15 @@ function insertMoviesIntoTable(movies) {
     // Change the background color based on the rating value
     const rating = parseInt(movie.rating);
     if (rating <= 2) {
-      ratingCell.style.backgroundColor = 'red';
+      ratingCell.style.color = 'red';
     } else if (rating <= 5) {
-      ratingCell.style.backgroundColor = 'yellow';
+      ratingCell.style.color = 'yellow';
     } else if (rating <= 8) {
-      ratingCell.style.backgroundColor = 'blue';
+      ratingCell.style.color = 'blue';
     } else {
-      ratingCell.style.backgroundColor = 'green';
+      ratingCell.style.color = 'green';
     }
+      ratingCell.style.backgroundColor = '';
     tableBody.appendChild(row);
   });
 }
