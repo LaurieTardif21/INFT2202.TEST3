@@ -77,7 +77,7 @@ function insertMoviesIntoTable(movies) {
     } else {
       ratingCell.style.color = 'green';
     }
-      ratingCell.style.backgroundColor = '';
+    ratingCell.style.backgroundColor = '';
     tableBody.appendChild(row);
   });
 }
@@ -91,8 +91,15 @@ function handleDropdownChange() {
   const selectedGenre = genreSelector.value;
   const selectedRating = ratingSelector.value;
 
-  fetchMovies(selectedGenre, selectedRating)
-    .then((movies) => insertMoviesIntoTable(movies))
+  fetchMovies(selectedGenre, null)
+    .then((movies) => {
+      // Filter movies based on selectedRating
+      let filteredMovies = movies;
+      if (selectedRating !== 'all') {
+        filteredMovies = movies.filter(movie => movie.rating >= parseInt(selectedRating));
+      }
+      insertMoviesIntoTable(filteredMovies);
+    })
     .catch((error) => {
       const table = document.querySelector('table');
       const alert = document.querySelector('.alert');
