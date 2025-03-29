@@ -11,27 +11,27 @@ function fetchMovies(genre, rating) {
   const params = [];
 
   if (genre) {
-    params.push(`genre=${genre}`);
+      params.push(`genre=${genre}`);
   }
   if (rating) {
-    params.push(`rating=${rating}`);
+      params.push(`rating=${rating}`);
   }
 
   if (params.length > 0) {
-    url += `?${params.join('&')}`;
+      url += `?${params.join('&')}`;
   }
 
   return fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Network response was not ok, status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      console.error('There has been a problem with your fetch operation:', error);
-      throw error; // Re-throw to be handled in the caller
-    });
+      .then((response) => {
+          if (!response.ok) {
+              throw new Error(`Network response was not ok, status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .catch((error) => {
+          console.error('There has been a problem with your fetch operation:', error);
+          throw error; // Re-throw to be handled in the caller
+      });
 }
 
 // Function to insert movies into the table
@@ -44,9 +44,9 @@ function insertMoviesIntoTable(movies) {
   tableBody.innerHTML = '';
 
   if (movies.length === 0) {
-    table.classList.add('d-none');
-    alert.classList.remove('d-none');
-    return;
+      table.classList.add('d-none');
+      alert.classList.remove('d-none');
+      return;
   }
 
   table.classList.remove('d-none');
@@ -54,31 +54,31 @@ function insertMoviesIntoTable(movies) {
 
   // Add new rows
   movies.forEach((movie) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${movie.title}</td>
-        <td>${movie.genre}</td>
-        <td>${new Date(Number(movie.release_date) * 1000).toLocaleDateString()}</td>
-        <td>${movie.director}</td>
-        <td class="rating">${movie.rating}</td>
-      `;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+      <td>${movie.title}</td>
+      <td>${movie.genre}</td>
+      <td>${new Date(Number(movie.release_date) * 1000).toLocaleDateString()}</td>
+      <td>${movie.director}</td>
+      <td class="rating">${movie.rating}</td>
+    `;
 
-    // Access the rating cell directly after creating it
-    const ratingCell = row.querySelector('.rating');
+      // Access the rating cell directly after creating it
+      const ratingCell = row.querySelector('.rating');
 
-    // Change the background color based on the rating value
-    const rating = parseInt(movie.rating);
-    if (rating <= 2) {
-      ratingCell.style.color = 'red';
-    } else if (rating <= 5) {
-      ratingCell.style.color = 'yellow';
-    } else if (rating <= 8) {
-      ratingCell.style.color = 'blue';
-    } else {
-      ratingCell.style.color = 'green';
-    }
-    ratingCell.style.backgroundColor = '';
-    tableBody.appendChild(row);
+      // Change the background color based on the rating value
+      const rating = parseInt(movie.rating);
+      if (rating <= 2) {
+          ratingCell.style.color = 'red';
+      } else if (rating <= 5) {
+          ratingCell.style.color = 'yellow';
+      } else if (rating <= 8) {
+          ratingCell.style.color = 'blue';
+      } else {
+          ratingCell.style.color = 'green';
+      }
+      ratingCell.style.backgroundColor = '';
+      tableBody.appendChild(row);
   });
 }
 
@@ -93,16 +93,20 @@ function handleDropdownChange() {
   const rating = selectedRating === 'all' ? undefined : selectedRating;
 
   fetchMovies(selectedGenre, rating)
-    .then((movies) => {
-      insertMoviesIntoTable(movies);
-    })
-    .catch((error) => {
-      const table = document.querySelector('table');
-      const alert = document.querySelector('.alert');
-      table.classList.add('d-none');
-      alert.classList.remove('d-none');
-      alert.textContent = 'Error fetching data.';
-    });
+      .then((movies) => {
+          let filteredMovies = movies;
+          if (selectedRating !== "all") {
+              filteredMovies = movies.filter(movie => movie.rating >= selectedRating)
+          }
+          insertMoviesIntoTable(filteredMovies);
+      })
+      .catch((error) => {
+          const table = document.querySelector('table');
+          const alert = document.querySelector('.alert');
+          table.classList.add('d-none');
+          alert.classList.remove('d-none');
+          alert.textContent = 'Error fetching data.';
+      });
 }
 
 // Add event listeners
@@ -113,11 +117,11 @@ ratingSelector.addEventListener('change', handleDropdownChange);
 fetchMovies()
   .then((movies) => insertMoviesIntoTable(movies))
   .catch((error) => {
-    const table = document.querySelector('table');
-    const alert = document.querySelector('.alert');
-    table.classList.add('d-none');
-    alert.classList.remove('d-none');
-    alert.textContent = 'Error fetching data.';
+      const table = document.querySelector('table');
+      const alert = document.querySelector('.alert');
+      table.classList.add('d-none');
+      alert.classList.remove('d-none');
+      alert.textContent = 'Error fetching data.';
   });
 
 // Update the footer
