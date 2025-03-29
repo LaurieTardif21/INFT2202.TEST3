@@ -90,15 +90,11 @@ const ratingSelector = document.getElementById('rating-selector');
 function handleDropdownChange() {
   const selectedGenre = genreSelector.value;
   const selectedRating = ratingSelector.value;
+  const rating = selectedRating === 'all' ? undefined : selectedRating;
 
-  fetchMovies(selectedGenre, null)
+  fetchMovies(selectedGenre, rating)
     .then((movies) => {
-      // Filter movies based on selectedRating
-      let filteredMovies = movies;
-      if (selectedRating !== 'all') {
-        filteredMovies = movies.filter(movie => movie.rating >= parseInt(selectedRating));
-      }
-      insertMoviesIntoTable(filteredMovies);
+      insertMoviesIntoTable(movies);
     })
     .catch((error) => {
       const table = document.querySelector('table');
