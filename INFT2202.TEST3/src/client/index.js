@@ -56,12 +56,12 @@ function insertMoviesIntoTable(movies) {
   movies.forEach((movie) => {
       const row = document.createElement('tr');
       row.innerHTML = `
-      <td>${movie.title}</td>
-      <td>${movie.genre}</td>
-      <td>${new Date(Number(movie.release_date) * 1000).toLocaleDateString()}</td>
-      <td>${movie.director}</td>
-      <td class="rating">${movie.rating}</td>
-    `;
+    <td>${movie.title}</td>
+    <td>${movie.genre}</td>
+    <td>${new Date(Number(movie.release_date) * 1000).toLocaleDateString()}</td>
+    <td>${movie.director}</td>
+    <td class="rating">${movie.rating}</td>
+  `;
 
       // Access the rating cell directly after creating it
       const ratingCell = row.querySelector('.rating');
@@ -90,7 +90,7 @@ const ratingSelector = document.getElementById('rating-selector');
 function handleDropdownChange() {
   const selectedGenre = genreSelector.value;
   const selectedRating = ratingSelector.value;
-  const rating = selectedRating === 'all' ? undefined : selectedRating;
+  const rating = (selectedRating === 'all' || selectedRating <= 7) ? undefined : selectedRating;
 
   fetchMovies(selectedGenre, rating)
       .then((movies) => {
