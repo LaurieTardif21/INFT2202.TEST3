@@ -34,6 +34,20 @@ function fetchMovies(genre, rating) {
       });
 }
 
+// Function to format date as MM/DD/YYYY, HH:MM:SS AM/PM
+function formatDate(date) {
+    const options = {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+    };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
 // Function to insert movies into the table
 function insertMoviesIntoTable(movies) {
   const tableBody = document.querySelector('table tbody');
@@ -58,7 +72,7 @@ function insertMoviesIntoTable(movies) {
       row.innerHTML = `
   <td>${movie.title}</td>
   <td>${movie.genre}</td>
-  <td>${new Date(Number(movie.release_date) * 1000).toLocaleDateString()}</td>
+  <td>${formatDate(new Date(Number(movie.release_date) * 1000))}</td>
   <td>${movie.director}</td>
   <td class="rating">${movie.rating}</td>
 `;
