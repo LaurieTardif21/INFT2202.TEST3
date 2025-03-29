@@ -94,7 +94,11 @@ function handleDropdownChange() {
 
   fetchMovies(selectedGenre, rating)
     .then((movies) => {
-      insertMoviesIntoTable(movies);
+        let filteredMovies = movies;
+        if(selectedRating !== "all"){
+            filteredMovies = movies.filter(movie => movie.rating == selectedRating)
+        }
+      insertMoviesIntoTable(filteredMovies);
     })
     .catch((error) => {
       const table = document.querySelector('table');
