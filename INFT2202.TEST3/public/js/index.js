@@ -2,7 +2,7 @@
 function updateFooter() {
   const footerSpan = document.querySelector('footer .text-body-secondary');
   const currentYear = new Date().getFullYear();
-  footerSpan.textContent = `Your Name ${currentYear}`; // Replace 'Your Name' with your actual name
+  footerSpan.textContent = `Laurie Tardif ${currentYear}`; // Replace 'Your Name' with your actual name
 }
 
 // Function to fetch movies from the server
@@ -55,39 +55,28 @@ function insertMoviesIntoTable(movies) {
   // Add new rows
   movies.forEach((movie) => {
     const row = document.createElement('tr');
-    const releaseDate = new Date(Number(movie.release_date) * 1000).toLocaleDateString();
+    row.innerHTML = `
+        <td>${movie.title}</td>
+        <td>${movie.genre}</td>
+        <td>${new Date(Number(movie.release_date) * 1000).toLocaleDateString()}</td>
+        <td>${movie.director}</td>
+        <td class="rating">${movie.rating}</td>
+      `;
 
-    // Create cells
-    const movieNameCell = document.createElement('td');
-    movieNameCell.textContent = movie.title;
-    const genreCell = document.createElement('td');
-    genreCell.textContent = movie.genre;
-    const releaseDateCell = document.createElement('td');
-    releaseDateCell.textContent = releaseDate;
-    const directorCell = document.createElement('td');
-    directorCell.textContent = movie.director;
-    const ratingCell = document.createElement('td');
-    ratingCell.textContent = movie.rating;
-    const parsedRating = parseInt(movie.rating)
-    // Add conditional styling based on the rating
+    // Access the rating cell directly after creating it
+    const ratingCell = row.querySelector('.rating');
 
-    if (parsedRating < 2) {
-        ratingCell.style.color = 'red';
-    } else if (parsedRating >= 2 && parsedRating < 5) {
-        ratingCell.style.color = 'red';
-    } else if (parsedRating >= 5 && parsedRating < 8) {
-        ratingCell.style.color = 'blue';
-    } else if (parsedRating >= 8) {
-        ratingCell.style.color = 'green';
+    // Change the background color based on the rating value
+    const rating = parseInt(movie.rating);
+    if (rating <= 2) {
+      ratingCell.style.backgroundColor = 'red';
+    } else if (rating <= 5) {
+      ratingCell.style.backgroundColor = 'yellow';
+    } else if (rating <= 8) {
+      ratingCell.style.backgroundColor = 'blue';
+    } else {
+      ratingCell.style.backgroundColor = 'green';
     }
-
-    // Append cells to the row
-    row.appendChild(movieNameCell);
-    row.appendChild(genreCell);
-    row.appendChild(releaseDateCell);
-    row.appendChild(directorCell);
-    row.appendChild(ratingCell);
-
     tableBody.appendChild(row);
   });
 }
